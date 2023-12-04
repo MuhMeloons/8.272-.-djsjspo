@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deposit</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/8229886894.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body style="background-color: #510478">
+    <div class="judul d-flex flex-column align-items-center text-center mt-5">
+      <img src="logo.png" alt="" width="200px" />
+    <br />
+    <br />
+    <br />
+    </div>
+    <div
+      class="container d-flex flex-column justify-content-center align-items-center mt-3"
+    >
+            <div
+      <div class="card mt-2 text-white" style="background-color: #361645">
+        <div class="card-body text-black">
+          <div class="">
+                  <div
+                                <br />                         <br />
+            <p>Sepesial Bonus Deposit min 150.000 Dapat 400.000 bisa di WD #BERLAKU 24 November - 30 Desember 2023
+                          <br />
+                                        <br />
+                          
+
+NORMAL
+Situs JIMBA SLOT mempunyai syarat minimal saat melakukan Deposit dan Withdraw yaitu dengan nominal:
+Minimal Deposit adalah Rp. 25.000;
+dan Minimal Withdraw adalah Rp. 50.000</p>
+            <ul style="list-style: none">
+              <li></li>
+              <li></li>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-5">
+      <form action="#" method="post" id="paymentForm">
+        <!-- Field Pertama: Select Bank -->
+        <div class="form-group">
+          <select class="form-control" id="bankSelect" name="bank" required>
+            <option selected>Pilih Bank untuk deposit</option>
+            <option value="DANA">DANA - # Budy Haryono 7</option>
+            <option value="OVO">OVO - # Muhidin</option>
+            <option value="GOPAY">GOPAY - # Ali</option>
+            <option value="LinkAja">LinkAja - # Muhajir</option>
+            <option value="SeaBank">SeaBank - # Muhajir</option>
+            <option value="BRI">BRI - # Muhajir</option>
+            <option value="QRIS">QRIS - # Offline</option>
+            <option value="BCA">BCA Virtual Account</option>
+            <!-- Tambahkan bank lain sesuai kebutuhan -->
+          </select>
+        </div>
+
+        <!-- Field Kedua: Nomor Rekening -->
+        <div class="form-group">
+          <label for="noRekening" class="text-white">Bank*</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="noRekening"
+              name="noRekening"
+              readonly
+              required
+            />
+            <div class="input-group-append">
+              <button type="button" class="btn btn-secondary" id="copyButton">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Field Ketiga: Nominal -->
+        <div class="form-group">
+          <label for="nominal" class="text-white">Nominal Deposit*</label>
+          <input
+            type="number"
+            class="form-control"
+            id="nominal"
+            name="nominal"
+            required
+          />
+        </div>
+
+        <!-- Field for CAPTCHA -->
+        <div class="form-group">
+          <label for="captcha" class="text-white">CAPTCHA</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="captcha"
+              name="captcha"
+              placeholder="Masukan codex"
+              required
+            />
+            <div class="input-group-append">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="refreshCaptcha"
+              >
+                <i class="fa-solid fa-repeat"></i>
+              </button>
+            </div>
+            <div class="input-group-append">
+              <canvas id="captchaCanvas" width="120" height="40"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="keteranganQris">
+          <ul style="list-style: none" class="text-danger">
+            <li>1. Screenshot qris</li>
+            <li>2. Scan qris</li>
+            <li>3. Masukan nominal deposit</li>
+            <li>4. Bayar</li>
+          </ul>
+        </div>
+        <div class="keterangan">
+          <ul style="list-style: none" class="text-danger">
+            <li>1. Login ke aplikasi m-BCA</li>
+            <li>2. Pilih menu m-Transfer > BCA Virtual Account</li>
+            <li>
+              3. Masukan nomor Virtual Account DANA kamu
+              (contoh:3901083830583770).
+            </li>
+            <li>4. Masukan jumlah pengisian</li>
+            <li>
+              5. Ikuti petunjuk selanjutnya untuk menyelesaikan transaksi.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tombol Simpan -->
+                      <br />
+                 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         &nbsp; &nbsp;
+        <button type="button" class="btn btn-danger" id="simpanButton">
+                 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kirim &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
+      </form>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, dan jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script untuk mengatur nilai Nomor Rekening sesuai dengan pilihan bank -->
+    <script>
+      var result = "";
+      var result = "";
+      $(document).ready(function () {
+        // Sembunyikan elemen dengan kelas "keterangan" dan "keteranganQris"
+        $(".keterangan").hide();
+        $(".keteranganQris").hide();
+      });
+
+      document
+        .getElementById("bankSelect")
+        .addEventListener("change", function () {
+          var bankSelect = document.getElementById("bankSelect");
+          var noRekeningField = document.getElementById("noRekening");
+
+          // Mengatur nomor rekening sesuai dengan pilihan bank
+          switch (bankSelect.value) {
+            case "OVO":
+              noRekeningField.value = "088225836175";
+              $(".keterangan").hide();
+              $(".keteranganQris").hide();
+              break;
+            case "DANA":
+              noRekeningField.value = "083830583770";
+              $(".keterangan").hide();
+              $(".keteranganQris").hide();
+              break;
+                          case "LinkAja":
+              noRekeningField.value = "083162266155";
+              $(".keterangan").hide();
+              $(".keteranganQris").hide();
+              break;
+            case "GOPAY":
+              noRekeningField.value = "083824631779";
+              $(".keterangan").hide();
+              $(".keteranganQris").hide();
+              break;
+            case "BRI":
+              noRekeningField.value = "0188 0102 3429 534";
+              $(".keterangan").hide();
+              $(".keteranganQris").hide();
+              break;
+            case "QRIS":
+              noRekeningField.value = "Sedang Offline";
+              $(".keterangan").hide();
+              $(".keteranganQris").show();
+              break;
+            case "SeaBank":
+              noRekeningField.value = "901883917107";
+              $(".keterangan").hide();
+              $(".keteranganQris").hide();
+              break;
+            case "BCA":
+              noRekeningField.value = "3901083830583770";
+              $(".keteranganQris").hide();
+              $(".keterangan").show();
+              break;
+            // Tambahkan bank lain sesuai kebutuhan
+          }
+        });
+
+      // Script untuk menyalin nomor rekening ke clipboard
+      document
+        .getElementById("copyButton")
+        .addEventListener("click", function () {
+          var noRekeningField = document.getElementById("noRekening");
+          noRekeningField.select();
+          document.execCommand("copy");
+          alert(
+            "Nomor Rekening telah disalin ke clipboard. " +
+              bankSelect.value +
+              "-" +
+              noRekeningField.value
+          );
+        });
+
+      document
+        .getElementById("refreshCaptcha")
+        .addEventListener("click", function () {
+          generateCaptcha();
+        });
+
+      function generateCaptcha() {
+        var captchaCanvas = document.getElementById("captchaCanvas");
+        var ctx = captchaCanvas.getContext("2d");
+        ctx.clearRect(0, 0, captchaCanvas.width, captchaCanvas.height);
+
+        // Inisialisasi ulang variabel result
+        result = "";
+
+        var captchaValue = generateRandomString(6); // Change the length as needed
+
+        // Draw the text on the canvas
+        ctx.font = "20px Arial";
+        ctx.fillText(captchaValue, 10, 30);
+      }
+
+      document
+        .getElementById("refreshCaptcha")
+        .addEventListener("click", function () {
+          generateCaptcha();
+        });
+
+      function generateRandomString(length) {
+        var characters = "0123456789";
+
+        for (var i = 0; i < length; i++) {
+          result += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+          );
+        }
+        return result;
+      }
+
+      // Initial generation of CAPTCHA on page load
+      generateCaptcha();
+
+      // Script untuk pengalihan ke halaman pembayaran
+      document
+        .getElementById("simpanButton")
+        .addEventListener("click", function () {
+          if (validateForm()) {
+            sessionStorage.setItem(
+              "user-bayar",
+              JSON.stringify({
+                jumlah: document.getElementById("nominal").value,
+              })
+            );
+            window.location.href = "halaman_pembayaran.html";
+          } else {
+            alert(
+              "Mohon lengkapi semua bidang dan masukkan CAPTCHA dengan benar."
+            );
+          }
+        });
+
+      function validateForm() {
+        var bankSelect = document.getElementById("bankSelect");
+        var noRekeningField = document.getElementById("noRekening");
+        var nominalField = document.getElementById("nominal");
+        var captchaField = document.getElementById("captcha");
+
+        // Memeriksa apakah semua bidang diisi
+        if (
+          bankSelect.value !== "" &&
+          noRekeningField.value !== "" &&
+          nominalField.value !== "" &&
+          captchaField.value !== ""
+        ) {
+          if (captchaField.value !== result) {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return false;
+        }
+      }
+    </script>
+        </div>
+    <br />
+    <br />
+    <br />
+        </div>
+    <br />
+    <br />
+    <br />
+        </div>
+    <br />
+    <br />
+    <br />
+  </body>
+</html>

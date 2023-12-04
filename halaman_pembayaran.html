@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Konfirmasi</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/8229886894.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body style="background-color: #510478">
+    <div class="judul d-flex flex-column align-items-center text-center mt-5">
+      <img src="logo.png" alt="" width="200px" />
+    </div>
+    <div class="container">
+      <div class="row m-3">
+        <div class="col">
+          <a href="home.html" class="btn btn-success">
+            <i class="fa-solid fa-house"></i> Home
+          </a>
+        </div>
+        <div class="col">
+          <a href="topup.html" class="btn btn-danger">
+            <i class="fa-solid fa-wallet"></i> Deposit
+          </a>
+        </div>
+      </div>
+      <div class="card mt-2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">Type</div>
+            <div class="col"><span style="float: right">Deposit</span></div>
+          </div>
+          <div class="row">
+            <div class="col">Status</div>
+            <div class="col"><span style="float: right">Pending</span></div>
+          </div>
+          <div class="row">
+            <div class="col">Jumlah</div>
+            <div class="col">
+              <span style="float: right" id="jumlah"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, dan jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      let UserBayar = JSON.parse(sessionStorage.getItem("user-bayar"));
+      console.log(UserBayar.jumlah);
+      let Jumlah = document.getElementById("jumlah");
+
+      Jumlah.innerText = UserBayar.jumlah;
+    </script>
+  </body>
+</html>
